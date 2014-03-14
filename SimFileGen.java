@@ -1,7 +1,7 @@
 //Matthew Gyure
 //Jaime Alvarez
 //Emmanuel Valdivia
-//ECE 448 - Operating System
+//ECE 46810 - Operating Systems
 //Project 1
 //
 //Program Name: SimFileGen
@@ -38,10 +38,10 @@ public class SimFileGen{
     			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,append));
             if(processCount == 0)
             {
-               writer.write(numberOfProcesses + "," + processSwitch);
+               writer.write(numberOfProcesses + " " + processSwitch);
                writer.newLine();
             }
-            writer.write(processCount + "," + randoGen() + "," + randoGen()); //
+            writer.write(processCount + " " + randoGen() + " " + randoGen()); //Changes were made to follow her format
     			//writer.write("Process#"+processCount+","+randoGen()+","+randoGen());
     			writer.newLine();
 			writer.close();

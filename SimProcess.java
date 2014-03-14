@@ -1,8 +1,18 @@
-/*
-Description:
+//Matthew Gyure
+//Jaime Alvarez
+//Emmanuel Valdivia
+//ECE 46810 - Operating Systems
+//Project 1
+//
+//Program Name: SimProcess
+//Language: Java
+//Last Updated: 3/13/2014
+/*Description:
 This class represents a process.
 The process will have the process number,
 the arrival time, and the cpu burst time.
+As well as keeping track of its waiting time
+and turnaround time.
 */
 
 public class SimProcess
