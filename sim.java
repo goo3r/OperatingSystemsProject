@@ -76,7 +76,8 @@ public class sim
          }
          
          FCFS algorithm = new FCFS(processes);
-         algorithm.showFCFSQueue();
+         //algorithm.showFCFSQueue();
+         algorithm.doFCFSScheduling();
       }
       else
       {
@@ -99,6 +100,7 @@ public class sim
          BufferedReader reader = new BufferedReader(new FileReader(path));
          
          //Local variables
+         //Helps keep track of where we are in each line in the file
          int spaceCounter = 0;
          
          //A boolean to know the first line in the input file is being read

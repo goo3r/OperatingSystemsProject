@@ -40,6 +40,10 @@ public class SimProcess
    public int getWaitingTime(){return waitingTime;}
    public int getTurnaroundTime(){return turnaroundTime;}
    
+   //Set methods
+   public void setWaitingTime(int time){waitingTime = time;}
+   public void setTurnaroundTime(int time){turnaroundTime = time;}
+   
    //Incremental methods for waiting time and turnaround time
    public void incrementWaitingTime(int inc){waitingTime+=inc;}
    public void incrementTurnaroundTime(int inc){turnaroundTime+=inc;}
