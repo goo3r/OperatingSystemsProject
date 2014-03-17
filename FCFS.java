@@ -15,7 +15,7 @@ import java.util.*;
 
 public class FCFS
 {
-   //The queue to use for FCFS
+   //The queue to use for FCFS as a ready queue
    private Queue<SimProcess> fcfsQueue = new LinkedList<SimProcess>();
    
    //The number of processes to schedule
@@ -24,7 +24,7 @@ public class FCFS
    //Constructor, sort the arraylist passed in by arrival time order and store it in a queue
    public FCFS(ArrayList<SimProcess> listOfProcesses)
    {      
-      //Sort the arraylist of processes first
+      //Sort the arraylist of processes first by arrival time
       Collections.sort(listOfProcesses, new Comparator<SimProcess>()
       {
          public int compare(SimProcess sp1, SimProcess sp2){return (sp1.getArrivalTime() - sp2.getArrivalTime());}
@@ -56,9 +56,9 @@ public class FCFS
             goodTogo = false;
          }
       }
-   }
+   }//showFCFSQueue()
    
-   public void doFCFSScheduling()
+   public void doFCFSScheduling(boolean detailedMode)
    {
       if(!fcfsQueue.isEmpty())
       {
@@ -114,15 +114,31 @@ public class FCFS
             
          }
          
-         System.out.println("First Come First Serve");
+         //Print it out
+         System.out.println("First Come First Serve: \n");
          System.out.println("Total Time required is " + cpuCurrentTotalTimeUnits + " time units");
-         System.out.println("CPU Utilization is 100%");
-         for(SimProcess p: doneQueue)
+         System.out.println("CPU Utilization is 100% \n");
+
+         
+         if(detailedMode)
          {
-            System.out.println("Process #" + p.getProcessNumber() + "\nArrival Time: " + p.getArrivalTime() + "\nCpu Burst Time: " + p.getCpuBurstTime() +  "\nWaiting Time: " + p.getWaitingTime() + "\nTurnaround Time: " + p.getTurnaroundTime() + "\n");
+            //Sort the done queue by Process Number
+            Collections.sort(doneQueue, new Comparator<SimProcess>()
+            {
+               public int compare(SimProcess p1, SimProcess p2)
+               {
+                  return (p1.getProcessNumber() - p2.getProcessNumber());
+               }
+            });
+            
+            //Print out with details for each process
+            for(SimProcess p: doneQueue)
+            {
+               System.out.println("Process " + p.getProcessNumber() + ": \nArrival Time: " + p.getArrivalTime() + "\nService Time: " + p.getCpuBurstTime() +  " units \nTurnaround Time: " + p.getTurnaroundTime() + " units \nFinished Time: " + (p.getArrivalTime() + p.getTurnaroundTime() + " units \n"));
+            }
          }
          
       }
-   }
+   }//doFCFSScheduling()
 
-}
+}//class FCFS

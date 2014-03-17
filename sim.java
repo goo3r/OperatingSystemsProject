@@ -21,6 +21,12 @@ public class sim
    private static boolean detailedInfoMode = false;
    private static boolean algorithmMode = false;
    
+   //Boolean to see if all algorithms are to be executed
+   private static boolean doAllAlgorithms = false;
+   
+   //Boolean to determine if argument inputs are valid
+   private static boolean argumentsAreValid = true;
+   
    //Number of processes gotten from the input file and process switch
    private static int numberOfProcesses;
    private static int processSwitch;
@@ -31,62 +37,167 @@ public class sim
       if(args.length == 0)
       {
          //Impossible
+         showErrors("Zero argument error: Must at least specify and input file path to execute program.");
       }
+      
+      //command looks like: java sim input_file
       else if(args.length == 1)
       {
-         //Do both algorithms from specified input file in default mode
+         //Do all algorithms from specified input file in default mode
+         doAlgorithms("", false, false, args[0]);
       }
+      //command looks like: java sim -d input_file
       else if(args.length == 2)
       {
          if(args[0] == "-d")
          {
             detailedInfoMode = true;
-         }
-         else if(args[0] == "-a")
-         {
-            algorithmMode = true;
-         }
-         else if(args[0] == "FCFS")
-         {
-            //Do FCFS only in default mode
-         }
-         else if(args[0] == "RR")
-         {
-            //Do RR only in default mode
+            doAlgorithms("", detailedInfoMode, false, args[1]);
          }
          else
          {
             //Unacceptable!!!
-         }
+            System.out.println(args[0] + "\n" + args[1] + "\n Number of args " + args.length); //Debugging
+            showErrors("First argument must be -d.");            
+         }         
 
       }
+      //command looks like: java sim -a algorithm input_file
       else if(args.length == 3)
       {
-         //Detailed and execute specified algorithm
-      }
-      
-      /***************Testing**************/
-      processes = getProcessesFromInputFile("C:\\Users\\Jaime\\Documents\\GitHub\\OperatingSystemsProject\\RandomProcesses.txt");
-      if(processes != null)
-      {
-         System.out.println("# of Processes: " + numberOfProcesses + "\nProcess Switch: " + processSwitch);
-         for(SimProcess p: processes)
+         boolean errorsInSyntax = false;
+         String errors = "";
+         if(args[0] == "-a")
          {
-           // System.out.println(p.getProcessNumber() + ", " + p.getArrivalTime() + ", " + p.getCpuBurstTime());
+            algorithmMode = true;
+            //argumentsAreValid = true;
+         }
+         else
+         {
+            //error
+            errorsInSyntax = true;
+            errors += "First argument must be -a.\n";
          }
          
-         FCFS algorithm = new FCFS(processes);
-         //algorithm.showFCFSQueue();
-         algorithm.doFCFSScheduling();
+         //Check for appropriate algorithms
+         if(!(args[1] == "FCFS" || args[1] == "RR"))
+         {
+            errorsInSyntax = true;
+            errors += "Second argument must be FCFS or RR.";
+         }
+         
+         if(!errorsInSyntax)
+         {
+            doAlgorithms(args[1], detailedInfoMode, algorithmMode, args[2]);
+         }
+         else
+         {
+            showErrors(errors);
+         }
+         
+      }
+      
+      //command looks like: java sim -d -a algorithm input_file
+      else if(args.length == 4)
+      {
+         boolean errorsInSyntax = false;
+         String errors = "";
+         if(args[0] == "-d")
+         {
+            detailedInfoMode = true;
+         }
+         else
+         {
+            errorsInSyntax = true;
+            errors += "First argument is incorrect. \n";
+         }
+         
+         if(args[1] == "-a")
+         {
+            algorithmMode = true;
+         }
+         else
+         {
+            errorsInSyntax = true;
+            errors += "Second argument is incorrect. \n";
+         }
+         
+         if(!(args[2] == "FCFS" || args[2] == "RR"))
+         {
+            errorsInSyntax = true;
+            errors += "Third argument is incorrect. \n";
+         }
+         
+         if(!errorsInSyntax)
+         {
+            doAlgorithms(args[2], detailedInfoMode, algorithmMode, args[3]);
+         }
+         else
+         {
+            showErrors(errors);
+         }
+         
+      }  
+   }//void main(String[] args)
+   
+   //The method that will do a specific or all algorithms, given the modes that are given by the arguments.
+   public static void doAlgorithms(String algorithm, boolean dMode, boolean aMode, String path)
+   {
+      if(aMode)
+      {
+         if(algorithm == "FCFS")
+         {
+            /***************Testing**************/
+            processes = getProcessesFromInputFile(path);//getProcessesFromInputFile("C:\\Users\\Jaime\\Documents\\GitHub\\OperatingSystemsProject\\RandomProcesses.txt");
+            if(processes != null)
+            {
+               System.out.println("# of Processes: " + numberOfProcesses + "\nProcess Switch: " + processSwitch);
+               
+               FCFS alg = new FCFS(processes);
+               //algorithm.showFCFSQueue();
+               alg.doFCFSScheduling(dMode);
+            }
+            else
+            {
+               System.out.println("It's null");
+            }
+            /************End of Testing**********/
+         }
+         else if(algorithm == "RR")
+         {
+            //Emmanuel do some magic
+         }
       }
       else
       {
-         System.out.println("It's null");
+         //Do both algorithms
+         //FCFS
+         /***************Testing**************/
+            processes = getProcessesFromInputFile(path);//getProcessesFromInputFile("C:\\Users\\Jaime\\Documents\\GitHub\\OperatingSystemsProject\\RandomProcesses.txt");
+            if(processes != null)
+            {
+               System.out.println("# of Processes: " + numberOfProcesses + "\nProcess Switch: " + processSwitch);
+               
+               FCFS alg = new FCFS(processes);
+               //algorithm.showFCFSQueue();
+               alg.doFCFSScheduling(dMode);
+            }
+            else
+            {
+               System.out.println("It's null");
+            }
+            /************End of Testing**********/
+            
+        //Then RR
+        //Emmanuel do a barrel roll
       }
-      /************End of Testing**********/
-      
-      
-   }//void main(String[] args)
+   }
+   
+   //Method to display any errors to the cosole
+   public static void showErrors(String err)
+   {
+      System.out.println(err);
+   }
    
    
    //This method gets the processes from an input file
