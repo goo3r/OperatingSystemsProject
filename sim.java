@@ -49,7 +49,7 @@ public class sim
       //command looks like: java sim -d input_file
       else if(args.length == 2)
       {
-         if(args[0] == "-d")
+         if(args[0].equals("-d"))
          {
             detailedInfoMode = true;
             doAlgorithms("", detailedInfoMode, false, args[1]);
@@ -67,7 +67,7 @@ public class sim
       {
          boolean errorsInSyntax = false;
          String errors = "";
-         if(args[0] == "-a")
+         if(args[0].equals("-a"))
          {
             algorithmMode = true;
             //argumentsAreValid = true;
@@ -80,7 +80,7 @@ public class sim
          }
          
          //Check for appropriate algorithms
-         if(!(args[1] == "FCFS" || args[1] == "RR"))
+         if(!(args[1].equals("FCFS") || args[1].equals("RR")))
          {
             errorsInSyntax = true;
             errors += "Second argument must be FCFS or RR.";
@@ -93,6 +93,7 @@ public class sim
          else
          {
             showErrors(errors);
+            System.out.println("Args length: " + args.length + "\nargs[0]: " + args[0] + "\nargs[1]: "+ args[1] + "\nargs[2]: " + args[2]);
          }
          
       }
@@ -102,7 +103,7 @@ public class sim
       {
          boolean errorsInSyntax = false;
          String errors = "";
-         if(args[0] == "-d")
+         if(args[0].equals("-d"))
          {
             detailedInfoMode = true;
          }
@@ -112,7 +113,7 @@ public class sim
             errors += "First argument is incorrect. \n";
          }
          
-         if(args[1] == "-a")
+         if(args[1].equals("-a"))
          {
             algorithmMode = true;
          }
@@ -122,7 +123,7 @@ public class sim
             errors += "Second argument is incorrect. \n";
          }
          
-         if(!(args[2] == "FCFS" || args[2] == "RR"))
+         if(!(args[2].equals("FCFS") || args[2].equals("RR")))
          {
             errorsInSyntax = true;
             errors += "Third argument is incorrect. \n";
@@ -145,7 +146,7 @@ public class sim
    {
       if(aMode)
       {
-         if(algorithm == "FCFS")
+         if(algorithm.equals("FCFS"))
          {
             /***************Testing**************/
             processes = getProcessesFromInputFile(path);//getProcessesFromInputFile("C:\\Users\\Jaime\\Documents\\GitHub\\OperatingSystemsProject\\RandomProcesses.txt");
@@ -153,19 +154,20 @@ public class sim
             {
                System.out.println("# of Processes: " + numberOfProcesses + "\nProcess Switch: " + processSwitch);
                
-               FCFS alg = new FCFS(processes);
+               FCFS alg = new FCFS(processes, processSwitch);
                //algorithm.showFCFSQueue();
                alg.doFCFSScheduling(dMode);
             }
             else
             {
-               System.out.println("It's null");
+               showErrors("An error occurred reading the file. Please check the error message and stack trace.");
             }
             /************End of Testing**********/
          }
-         else if(algorithm == "RR")
+         else if(algorithm.equals("RR"))
          {
             //Emmanuel do some magic
+            System.out.println("Emmanuel do some magic");
          }
       }
       else
@@ -173,23 +175,23 @@ public class sim
          //Do both algorithms
          //FCFS
          /***************Testing**************/
-            processes = getProcessesFromInputFile(path);//getProcessesFromInputFile("C:\\Users\\Jaime\\Documents\\GitHub\\OperatingSystemsProject\\RandomProcesses.txt");
-            if(processes != null)
-            {
-               System.out.println("# of Processes: " + numberOfProcesses + "\nProcess Switch: " + processSwitch);
+         processes = getProcessesFromInputFile(path);//getProcessesFromInputFile("C:\\Users\\Jaime\\Documents\\GitHub\\OperatingSystemsProject\\RandomProcesses.txt");
+         if(processes != null)
+         {
+            System.out.println("# of Processes: " + numberOfProcesses + "\nProcess Switch: " + processSwitch);
                
-               FCFS alg = new FCFS(processes);
-               //algorithm.showFCFSQueue();
-               alg.doFCFSScheduling(dMode);
-            }
-            else
-            {
-               System.out.println("It's null");
-            }
-            /************End of Testing**********/
+            FCFS alg = new FCFS(processes, processSwitch);
+            //algorithm.showFCFSQueue();
+            alg.doFCFSScheduling(dMode);
+         }
+         else
+         {
+            showErrors("An error occurred reading the file. Please check the error message and stack trace.");
+         }
+         /************End of Testing**********/
             
-        //Then RR
-        //Emmanuel do a barrel roll
+         //Then RR
+         System.out.println("Emmanuel do a barrel roll");
       }
    }
    
@@ -203,6 +205,7 @@ public class sim
    //This method gets the processes from an input file
    public static ArrayList<SimProcess> getProcessesFromInputFile(String path)
    {
+      //A list to hold the incoming processes
       ArrayList<SimProcess> list = new ArrayList<SimProcess>();
       
       //Try to read the input file

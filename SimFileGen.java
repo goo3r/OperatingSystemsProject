@@ -14,7 +14,7 @@ import java.io.*;
 
 public class SimFileGen{
 	
-   public static int numberOfProcesses = 30;
+   public static int numberOfProcesses = 4; //30; testing
    public int processSwitch = 2;
 
 	public static void main(String args[]){
@@ -32,7 +32,8 @@ public class SimFileGen{
 	}
 	
 	public void writeFile(boolean append, int processCount) {
-    		String fileName = "RandomProcesses.txt";
+    		String fileName = "test.txt"; //Testing
+         //String fileName = "RandomProcesses.txt";
      
     		try {
     			BufferedWriter writer = new BufferedWriter(new FileWriter(fileName,append));
@@ -41,7 +42,7 @@ public class SimFileGen{
                writer.write(numberOfProcesses + " " + processSwitch);
                writer.newLine();
             }
-            writer.write(processCount + " " + randoGen() + " " + randoGen()); //Changes were made to follow her format
+            writer.write(processCount + " " + randoGen() + " " + (randoGen()+1)); //Changes were made to follow her format
     			//writer.write("Process#"+processCount+","+randoGen()+","+randoGen());
     			writer.newLine();
 			writer.close();
