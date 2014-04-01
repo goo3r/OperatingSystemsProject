@@ -156,7 +156,7 @@ public class RR
             {
                //Only allows process to run for a certain time quantum
                int count = 0;
-               while(count < quantum || serviceTime > 0)  
+               while(count < quantum && serviceTime > 0)  
                {
                   //Process currently running
                   cpuCurrentTotalTimeUnits++;

@@ -54,6 +54,6 @@ public class SimFileGen{
 	public int randoGen(){
 		Random rand = new Random();
 		
-		return rand.nextInt(50);
+		return rand.nextInt(5);
 	}
 }
