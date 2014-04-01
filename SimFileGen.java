@@ -32,7 +32,7 @@ public class SimFileGen{
 	}
 	
 	public void writeFile(boolean append, int processCount) {
-    		String fileName = "test.txt"; //Testing
+    		String fileName = "testRR.txt"; //Testing
          //String fileName = "RandomProcesses.txt";
      
     		try {
@@ -54,6 +54,6 @@ public class SimFileGen{
 	public int randoGen(){
 		Random rand = new Random();
 		
-		return rand.nextInt(10);
+		return rand.nextInt(50);
 	}
 }

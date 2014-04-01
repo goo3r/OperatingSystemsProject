@@ -43,6 +43,7 @@ public class SimProcess
    //Set methods
    public void setWaitingTime(int time){waitingTime = time;}
    public void setTurnaroundTime(int time){turnaroundTime = time;}
+   public void setCpuBurstTime(int time){cpuBurstTime = time;}
    
    //Incremental methods for waiting time and turnaround time
    public void incrementWaitingTime(int inc){waitingTime+=inc;}

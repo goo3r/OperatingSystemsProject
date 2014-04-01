@@ -167,7 +167,21 @@ public class sim
          else if(algorithm.equals("RR"))
          {
             //Emmanuel do some magic
-            System.out.println("Emmanuel do some magic");
+            /***************Testing**************/
+            processes = getProcessesFromInputFile(path);//getProcessesFromInputFile("C:\\Users\\Jaime\\Documents\\GitHub\\OperatingSystemsProject\\RandomProcesses.txt");
+            if(processes != null)
+            {
+               System.out.println("# of Processes: " + numberOfProcesses + "\nProcess Switch: " + processSwitch);
+               
+               RR alg = new RR(processes, processSwitch);
+               //algorithm.showRRQueue();
+               alg.doRRScheduling(dMode);
+            }
+            else
+            {
+               showErrors("An error occurred reading the file. Please check the error message and stack trace.");
+            }
+            /************End of Testing**********/
          }
       }
       else
@@ -175,7 +189,7 @@ public class sim
          //Do both algorithms
          //FCFS
          /***************Testing**************/
-         processes = getProcessesFromInputFile(path);//getProcessesFromInputFile("C:\\Users\\Jaime\\Documents\\GitHub\\OperatingSystemsProject\\RandomProcesses.txt");
+         processes = getProcessesFromInputFile(path);//getProcessesFromInputFile("C:\\Users\\Emmanuel\\Documents\\GitHub\\OperatingSystemsProject\\RandomProcesses.txt");
          if(processes != null)
          {
             System.out.println("# of Processes: " + numberOfProcesses + "\nProcess Switch: " + processSwitch);
@@ -191,10 +205,24 @@ public class sim
          /************End of Testing**********/
             
          //Then RR
-         System.out.println("Emmanuel do a barrel roll");
-      }
-   }
-   
+         /***************Testing**************/
+            processes = getProcessesFromInputFile(path);//getProcessesFromInputFile("C:\\Users\\Jaime\\Documents\\GitHub\\OperatingSystemsProject\\RandomProcesses.txt");
+            if(processes != null)
+            {
+               System.out.println("# of Processes: " + numberOfProcesses + "\nProcess Switch: " + processSwitch);
+               
+               RR alg = new RR(processes, processSwitch);
+               //algorithm.showFCFSQueue();
+               alg.doRRScheduling(dMode);
+            }
+            else
+            {
+               showErrors("An error occurred reading the file. Please check the error message and stack trace.");
+            }
+            /************End of Testing**********/
+       }  
+   }//doAlgorithms 
+         
    //Method to display any errors to the cosole
    public static void showErrors(String err)
    {
