@@ -7,9 +7,9 @@
 //
 //Program Name: RR
 //Language: Java
-//Last Updated: 3/17/2014
+//Last Updated: 3/31/2014
 Description:
-This class file represents the Round Robin Algorithm, 
+This class file represents the Round Robin Algorithm 
 */
 
 import java.util.*;
