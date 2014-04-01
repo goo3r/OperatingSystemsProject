@@ -1,0 +1,67 @@
+Hello!
+
+For the regular program files they are called:
+sim.java
+SimProcess.java
+FCFS.java
+RR.java
+
+
+sim.java: It's the main program file
+It uses a method to read the input file and saves 
+each process as an Object of type SimProcess and
+puts all of the SimProcess' into an ArrayList to 
+pass it to each algorithms' constructors to set 
+up their ready queues. Then calls the algorithms'
+doScheduling method to do the simulation.
+
+SimProcess.java: It's a class that represents a process
+This class was made to help store the data from the input
+file to some form of object to later use for actual scheduling.
+
+FCFS.java: It represents the algorithm for First Come First Serve
+Its constructor takes the ArrayList of processes then sorts them
+by Arrival Time and stores it into a LinkedList that implements
+a Queue. doFCFSScheduling is the method that does the actual
+simulation of FCFS.
+
+RR.java: It represents the algorithm for Round Robin
+Its constructor takes the ArrayList of processes then sorts them
+by Arrival Time and stores it into a LinkedList that implements
+a Queue. doRRScheduling is the method that does the actual
+simulation of RR. A temp queue is used to act as the RR queue.
+
+
+------------------------------------------------------------------
+
+For the extra credit, we did the one that takes IO burst times:
+simExtra.java
+SimProcessExtra.java
+FCFSExtra.java
+
+simExtra.java: It's the main program file
+It uses a method to read the input file that includes
+CPU and IO burst times, and saves each process as an 
+Object of type SimProcess and puts all of the 
+SimProcess' into an ArrayList to pass it to each 
+algorithms' constructors to set up their ready queues. 
+Then calls the algorithms' doScheduling method to do 
+the simulation.
+
+SimProcessExtra.java: It's a class that represents a process
+This class was made to help store the data from the input
+file to some form of object to later use for actual scheduling.
+This includes the IO burst times.
+
+FCFSExtra.java: It represents the algorithm for First Come First Serve
+Its constructor takes the ArrayList of processes then sorts them
+by Arrival Time and stores it into a LinkedList that implements
+a Queue. doFCFSScheduling is the method that does the actual
+simulation of FCFS. This simulation accounts for IO burst times.
+
+Other files used for testing:
+SimFileGen.java
+test.txt
+RandomProcesses.txt
+testExtra.txt
+testRR.txt

@@ -23,8 +23,11 @@ public class SimProcessExtra
    private int processNumber;
    private int arrivalTime;
    private int numberOfCpuBurstTimes;
+   
+   //A list to hold CPU and IO burst times
    private LinkedList<Integer> cpuBurstTime = new LinkedList<Integer>();
    private LinkedList<Integer> ioBurstTime = new LinkedList<Integer>();
+   private int totalCpuBursts = 0;
    
    //A process' waiting time and turnaround time
    private int waitingTime = 0;
@@ -60,6 +63,7 @@ public class SimProcessExtra
    public int getWaitingTime(){return waitingTime;}
    public int getTurnaroundTime(){return turnaroundTime;}
    public int getNumberOfCpuBurstTimes(){return numberOfCpuBurstTimes;}
+   public int getTotalServiceTime(){return totalCpuBursts;}
    
    //Set methods
    public void setWaitingTime(int time){waitingTime = time;}
@@ -71,6 +75,7 @@ public class SimProcessExtra
    public void addIoBurstTime(int ioTime){ioBurstTime.add(ioTime);}
    
    //Incremental methods for waiting time and turnaround time
+   public void incrementTotalServiceTime(int inc){totalCpuBursts+=inc;}
    public void incrementWaitingTime(int inc){waitingTime+=inc;}
    public void incrementTurnaroundTime(int inc){turnaroundTime+=inc;}
 }

@@ -195,8 +195,8 @@ public class simExtra
             System.out.println("# of Processes: " + numberOfProcesses + "\nProcess Switch: " + processSwitch);
                
             FCFSExtra alg = new FCFSExtra(processes, processSwitch);
-            alg.showFCFSQueue();
-            //alg.doFCFSScheduling(dMode);
+            //alg.showFCFSQueue();
+            alg.doFCFSScheduling(dMode);
          }
          else
          {
@@ -306,10 +306,10 @@ public class simExtra
                {
                   for(int i = 0; i<lineChar.length; i++)
                   {
-                     //Again look for commas
+                     //Again look for spaces
                      if(lineChar[i] == ' ')
                      {
-                        //Increment comma counter
+                        //Increment space counter
                         spaceCounter++;
                         if(spaceCounter == 1)
                         {
@@ -330,23 +330,21 @@ public class simExtra
                      } 
                   }
                   //End of line for this process basic info, add the final data as number of Cpu Burst Times
-                  //processCpuBurstTime = Integer.parseInt(data);
                   numberOfBurstTimes = Integer.parseInt(data);
+                  //Clear data buffer and reset space counter
                   data = "";
                   spaceCounter = 0;
                   //Add this new process to the list
                   p = new SimProcessExtra(processNumber, processArrivalTime, numberOfBurstTimes);
+                  //Set basic info boolean to false to enter CPU and IO burst section of text file next iteration
                   basicInfo = false;       
                }
                //Read the processes' cpu and io burst times section
                else
-               {
-                  System.out.println("Process #: " + p.getProcessNumber());
+               {                  
                   //Read in the lines that contain both cpu and io burst times
                   for(int i = 0; i < numberOfBurstTimes-1; i++)
                   {  
-                     System.out.println(i + 1);
-                     System.out.println("# of Burst times " + numberOfBurstTimes);
                      spaceCounter = 0;
                      if(i != 0)
                      {
@@ -367,22 +365,17 @@ public class simExtra
                            }
                            else if(spaceCounter == 2)
                            {
-                              //Add the cpu burst time
+                              //Add the CPU burst time
                               p.addCpuBurstTime(Integer.parseInt(data));
                               data = "";
-                           }
-                           /*else if(spaceCounter == 3)
-                           {
-                              //Add the io burst time
-                              p.addIoBurstTime(Integer.parseInt(data));
-                              data = "";
-                           }*/
+                           }                           
                         }
                         else
                         {
                            data += Character.toString(lineChar[j]);
                         } 
                      }
+                     //Add the IO burst time
                      p.addIoBurstTime(Integer.parseInt(data));
                      data = "";
                   }//EndOfLinesWithBothCpuAndIOtimes   
@@ -403,14 +396,7 @@ public class simExtra
                         {                              
                            //Ignore the first number
                            data = "";
-                        }
-                        /*else if(spaceCounter == 2)
-                        {
-                           //The second piece of data is the last cpu burst time
-                           //Add the cpu burst time
-                           p.addCpuBurstTime(Integer.parseInt(data));
-                           data = "";
-                        }*/                           
+                        }                                                   
                      }
                      else
                      {
@@ -418,13 +404,15 @@ public class simExtra
                      } 
                   }
                   
+                  //Add final CPU burst time
                   p.addCpuBurstTime(Integer.parseInt(data));
-                  data = "";
                   //Finally add the process to the list                  
                   list.add(p);
                   //Set boolean back to true for next process' basic info section
                   basicInfo = true;
+                  //Clear data buffer and reset space counter
                   spaceCounter = 0;  
+                  data = "";
                 }//EndOfCpuIOsection
              
             }            

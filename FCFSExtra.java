@@ -90,16 +90,19 @@ public class FCFSExtra
          //The service time for a process
          int serviceTime = 0;
          
+         //IO service time for a process
+         int ioServiceTime = 0;
+         
          //Track the total idle time
          int idleTotalTime = 0;
+         
+         //Track the total io time
+         int ioTotalTime = 0;
          
          //A boolean to know when to get the new process waiting in the queue
          boolean getANewProcessFromReadyQueue = true;
          
-         //A boolean to keep track of processes processing
-        // boolean stillProcessing = true;
-         
-         //Done queue
+         //Done queue for later to display results
          ArrayList<SimProcessExtra> doneQueue = new ArrayList<SimProcessExtra>();
          
          //A reference to manipulate processes
@@ -127,7 +130,6 @@ public class FCFSExtra
                      
                      //Track it's waiting time
                      processCurrentlyProcessing.setWaitingTime(cpuCurrentTotalTimeUnits-processCurrentlyProcessing.getArrivalTime());
-                     serviceTime = processCurrentlyProcessing.getCpuBurstTime();
                   }                  
                }
                //No more processes to run, exit out
@@ -141,19 +143,36 @@ public class FCFSExtra
             //A process is now currently running
             if(processCurrentlyProcessing != null)
             {
-               //Process currently running
-               cpuCurrentTotalTimeUnits++;
-               serviceTime--;
+               //Get the number of total CPU burst times for this process
+               int numberOfCpuBursts = processCurrentlyProcessing.getNumberOfCpuBurstTimes();
                
-               //Service time of the current process is up
-               if(serviceTime == 0)
+               //Start the CPU bursts and the IO bursts
+               for(int i = 0; i < numberOfCpuBursts; i++)
                {
-                  //Porcess is done send it to the done queue and have the reference set to null
-                  //Also, track the turnaround time
-                  processCurrentlyProcessing.setTurnaroundTime(cpuCurrentTotalTimeUnits-processCurrentlyProcessing.getArrivalTime());
-                  doneQueue.add(processCurrentlyProcessing);
-                  processCurrentlyProcessing = null;               
+                  //Do CPU burst
+                  if((serviceTime = processCurrentlyProcessing.getCpuBurstTime())!= -1)
+                  {
+                     cpuCurrentTotalTimeUnits += serviceTime;
+                     
+                     //Track the total service time for this process currently running
+                     processCurrentlyProcessing.incrementTotalServiceTime(serviceTime);
+                     
+                  }
+                  //Then do IO burst
+                  if((ioServiceTime = processCurrentlyProcessing.getIoBurstTime()) != -1)
+                  {
+                     cpuCurrentTotalTimeUnits += ioServiceTime;
+                     idleTotalTime += ioServiceTime;
+                     ioTotalTime += ioServiceTime;
+                  }
                }
+                                             
+               //Porcess is done send it to the done queue and have the reference set to null
+               //Also, track the turnaround time
+               processCurrentlyProcessing.setTurnaroundTime(cpuCurrentTotalTimeUnits-processCurrentlyProcessing.getArrivalTime());
+               doneQueue.add(processCurrentlyProcessing);
+               processCurrentlyProcessing = null;               
+               
             }
             //No process is currently running, CPU is idle for this current time unit
             else
@@ -167,6 +186,7 @@ public class FCFSExtra
          System.out.println("\nFirst Come First Serve: \n");
          System.out.println("Total Time required is " + cpuCurrentTotalTimeUnits + " time units");
          System.out.println("Idle Total Time: "+idleTotalTime);
+         System.out.println("IO Burst Total Time: " + ioTotalTime);
          //System.out.println("Cpu Current Total Time: "+cpuCurrentTotalTimeUnits);
          //System.out.println("Division"+(float)(idleTotalTime/cpuCurrentTotalTimeUnits));
          System.out.println("CPU Utilization is " + String.format("%.2f", 100*(1.0f-(((float)idleTotalTime)/cpuCurrentTotalTimeUnits))) +"%\n");
@@ -185,7 +205,7 @@ public class FCFSExtra
             //Print out with details for each process
             for(SimProcessExtra p: doneQueue)
             {
-               System.out.println("Process " + p.getProcessNumber() + ": \nArrival Time: " + p.getArrivalTime() + "\nService Time: " + p.getCpuBurstTime() +  " units \nTurnaround Time: " + p.getTurnaroundTime() + " units \nFinished Time: " + (p.getArrivalTime() + p.getTurnaroundTime() + " units \n"));
+               System.out.println("Process " + p.getProcessNumber() + ": \nArrival Time: " + p.getArrivalTime() + "\nTotal Service Time: " + p.getTotalServiceTime() +  " units \nTurnaround Time: " + p.getTurnaroundTime() + " units \nFinished Time: " + (p.getArrivalTime() + p.getTurnaroundTime() + " units \n"));
             }
          }         
       }
