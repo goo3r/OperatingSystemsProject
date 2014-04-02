@@ -1,0 +1,31 @@
+
+First Come First Serve: 
+
+Total Time required is 83 time units
+Idle Total Time: 68
+CPU Utilization is 18.07%
+
+Process 0: 
+Arrival Time: 0
+Service Time: 2 units 
+Turnaround Time: 4 units 
+Finished Time: 4 units 
+
+Process 1: 
+Arrival Time: 50
+Service Time: 6 units 
+Turnaround Time: 8 units 
+Finished Time: 58 units 
+
+Process 2: 
+Arrival Time: 80
+Service Time: 1 units 
+Turnaround Time: 3 units 
+Finished Time: 83 units 
+
+Process 3: 
+Arrival Time: 6
+Service Time: 6 units 
+Turnaround Time: 8 units 
+Finished Time: 14 units 
+

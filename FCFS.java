@@ -12,6 +12,7 @@ This class represents the algorithm
 for the FCFS policy.
 */
 import java.util.*;
+import java.io.*;
 
 public class FCFS
 {
@@ -148,30 +149,76 @@ public class FCFS
          }
          
          //Print it out
-         System.out.println("\nFirst Come First Serve: \n");
-         System.out.println("Total Time required is " + cpuCurrentTotalTimeUnits + " time units");
-         System.out.println("Idle Total Time: "+idleTotalTime);
-         //System.out.println("Cpu Current Total Time: "+cpuCurrentTotalTimeUnits);
-         //System.out.println("Division"+(float)(idleTotalTime/cpuCurrentTotalTimeUnits));
-         System.out.println("CPU Utilization is " + String.format("%.2f", 100*(1.0f-(((float)idleTotalTime)/cpuCurrentTotalTimeUnits))) +"%\n");
-
-         if(detailedMode)
+         try
          {
-            //Sort the done queue by Process Number
-            Collections.sort(doneQueue, new Comparator<SimProcess>()
-            {
-               public int compare(SimProcess p1, SimProcess p2)
-               {
-                  return (p1.getProcessNumber() - p2.getProcessNumber());
-               }
-            });
+            BufferedWriter writer = new BufferedWriter(new FileWriter("FCFS.txt", true));
+            writer.write("\nFirst Come First Serve: \n");
+            writer.newLine();
             
-            //Print out with details for each process
-            for(SimProcess p: doneQueue)
+            writer.write("Total Time required is " + cpuCurrentTotalTimeUnits + " time units");
+            writer.newLine();
+            
+            writer.write("Idle Total Time: "+idleTotalTime);
+            writer.newLine();
+            
+            writer.write("CPU Utilization is " + String.format("%.2f", 100*(1.0f-(((float)idleTotalTime)/cpuCurrentTotalTimeUnits))) +"%\n");
+            writer.newLine();
+            
+            if(detailedMode)
             {
-               System.out.println("Process " + p.getProcessNumber() + ": \nArrival Time: " + p.getArrivalTime() + "\nService Time: " + p.getCpuBurstTime() +  " units \nTurnaround Time: " + p.getTurnaroundTime() + " units \nFinished Time: " + (p.getArrivalTime() + p.getTurnaroundTime() + " units \n"));
+               //Sort the done queue by Process Number
+               Collections.sort(doneQueue, new Comparator<SimProcess>()
+               {
+                  public int compare(SimProcess p1, SimProcess p2)
+                  {
+                     return (p1.getProcessNumber() - p2.getProcessNumber());
+                  }
+               });
+               
+               //Print out with details for each process
+               for(SimProcess p: doneQueue)
+               {
+                  writer.write("Process " + p.getProcessNumber() + ": \nArrival Time: " + p.getArrivalTime() + "\nService Time: " + p.getCpuBurstTime() +  " units \nTurnaround Time: " + p.getTurnaroundTime() + " units \nFinished Time: " + (p.getArrivalTime() + p.getTurnaroundTime() + " units \n"));
+                  writer.newLine();
+               }
             }
-         }         
+            writer.close();
+            
+         }
+         catch(IOException e)
+         {
+            System.out.println("Output file was not successfully produced!");
+         }
+         finally
+         {
+            System.out.println("\nFirst Come First Serve: \n");
+            System.out.println("Total Time required is " + cpuCurrentTotalTimeUnits + " time units");
+            System.out.println("Idle Total Time: "+idleTotalTime);
+            //System.out.println("Cpu Current Total Time: "+cpuCurrentTotalTimeUnits);
+            //System.out.println("Division"+(float)(idleTotalTime/cpuCurrentTotalTimeUnits));
+            System.out.println("CPU Utilization is " + String.format("%.2f", 100*(1.0f-(((float)idleTotalTime)/cpuCurrentTotalTimeUnits))) +"%\n");
+   
+            if(detailedMode)
+            {
+               //Sort the done queue by Process Number
+               Collections.sort(doneQueue, new Comparator<SimProcess>()
+               {
+                  public int compare(SimProcess p1, SimProcess p2)
+                  {
+                     return (p1.getProcessNumber() - p2.getProcessNumber());
+                  }
+               });
+               
+               //Print out with details for each process
+               for(SimProcess p: doneQueue)
+               {
+                  System.out.println("Process " + p.getProcessNumber() + ": \nArrival Time: " + p.getArrivalTime() + "\nService Time: " + p.getCpuBurstTime() +  " units \nTurnaround Time: " + p.getTurnaroundTime() + " units \nFinished Time: " + (p.getArrivalTime() + p.getTurnaroundTime() + " units \n"));
+               }
+            }
+            
+         }//finally  
+         
+                        
       }
    }//doFCFSScheduling()
 
